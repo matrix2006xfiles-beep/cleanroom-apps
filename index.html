@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cleanroom Reference</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f6f8fa;--card:#fff;--tx:#1b2430;--mu:#5d6b7a;--bd:#d9e0e7;--ac:#0b6e99;--a:#2e7d32;--b:#1565c0;--c:#ef8f00;--d:#7b5ea7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151b;--card:#18202a;--tx:#e6ecf2;--mu:#98a6b4;--bd:#2a3541;--ac:#4fb3e0;--a:#66bb6a;--b:#64a8f0;--c:#ffb74d;--d:#b39ddb}}
+:root[data-theme="dark"]{--bg:#10151b;--card:#18202a;--tx:#e6ecf2;--mu:#98a6b4;--bd:#2a3541;--ac:#4fb3e0;--a:#66bb6a;--b:#64a8f0;--c:#ffb74d;--d:#b39ddb}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:16px 16px 8px}h1{margin:0;font-size:1.3rem}p.s{margin:2px 0 0;color:var(--mu);font-size:.85rem}
+nav{display:flex;gap:6px;overflow-x:auto;padding:8px 16px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+nav button{flex:none;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:20px;font:inherit;font-size:.9rem}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+main{padding:8px 16px 32px;max-width:760px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin:0 0 12px}
+.card h3{margin:0 0 6px;font-size:1.05rem}.g{border-left:6px solid var(--bd)}
+.gA{border-left-color:var(--a)}.gB{border-left-color:var(--b)}.gC{border-left-color:var(--c)}.gD{border-left-color:var(--d)}
+.card p{margin:4px 0;font-size:.92rem}.mu{color:var(--mu)}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{border-bottom:1px solid var(--bd);padding:8px 10px;text-align:left;white-space:nowrap}th{color:var(--mu);font-weight:600}
+input{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit;margin-bottom:12px}
+.note{font-size:.8rem;color:var(--mu);border-top:1px solid var(--bd);margin-top:16px;padding-top:10px}
+dt{font-weight:600}dd{margin:0 0 10px;color:var(--mu);font-size:.92rem}
+</style>
+</head>
+<body>
+<header><h1>Cleanroom Reference</h1><p class="s">EU GMP Annex 1 (2022) and ISO 14644-1 quick guide</p></header>
+<nav id="nav"></nav>
+<main id="v"></main>
+<script>
+const tabs={
+grades:'Grades',particles:'Particles',micro:'Microbial',gown:'Gowning',gloss:'Glossary'};
+const gr=[
+['A','gA','Critical zone: filling, aseptic connections, open sterile product.','ISO 5 (at rest and in operation)','Unidirectional airflow, guidance 0.36–0.54 m/s at working position.'],
+['B','gB','Background to Grade A for aseptic preparation and filling.','ISO 5 at rest, ISO 7 in operation','Surrounds the Grade A zone in a conventional cleanroom.'],
+['C','gC','Less critical stages: component preparation, solution preparation for sterile filtration.','ISO 7 at rest, ISO 8 in operation','Also used for preparing solutions that will be sterile filtered.'],
+['D','gD','Least critical: handling of washed components, general support areas.','ISO 8 at rest','In-operation limit is not predetermined; set by the CCS.']];
+const pa=[['A','3,520','Not specified*','3,520','Not specified*'],['B','3,520','29','352,000','2,930'],['C','352,000','2,930','3,520,000','29,300'],['D','3,520,000','29,300','Not predetermined','Not predetermined']];
+const iso=[['ISO 5','3,520','832','29'],['ISO 6','35,200','8,320','293'],['ISO 7','352,000','83,200','2,930'],['ISO 8','3,520,000','832,000','29,300']];
+const mi=[['A','No growth','No growth','No growth','No growth'],['B','10','5','5','5'],['C','100','50','25','–'],['D','200','100','50','–']];
+const go=[
+['A / B','Sterilised, non-powdered gloves; sterilised or disinfected footwear; headgear totally enclosing hair and any facial hair; goggles/mask as required; one- or two-piece suit gathered at wrists with a high neck; trouser legs tucked into footwear. Low-shedding, sterile garments.'],
+['C','Hair and any beard or moustache covered; one- or two-piece suit gathered at wrists with a high neck; appropriate shoes or overshoes. Minimal fibre and particle shedding.'],
+['D','Hair and any beard or moustache covered; general protective suit; appropriate shoes or overshoes. Contamination control measures to avoid carry-in.']];
+const gl=[['APS','Aseptic process simulation, also called media fill.'],['CCS','Contamination control strategy.'],['CFU','Colony forming unit.'],['CIP','Clean in place.'],['EM','Environmental monitoring.'],['HEPA','High efficiency particulate air filter.'],['Isolator','Sealed enclosure with decontaminated interior and glove access, separating the process from the operator.'],['LAL','Limulus amebocyte lysate, used for bacterial endotoxin testing.'],['PUPSIT','Pre-use post-sterilisation integrity testing of the sterilising filter.'],['RABS','Restricted access barrier system.'],['SIP','Steam in place.'],['VHP','Vaporised hydrogen peroxide, used for decontamination.'],['Grade A','Critical zone for high-risk operations; ISO 5.'],['At rest','Installed and operating, with no personnel present.'],['In operation','Normal operating state with personnel present and process running.'],['First air','Air that reaches the critical surface before contacting anything else.']];
+const tb=(h,r)=>'<div class="w"><table><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr>'+r.map(x=>'<tr>'+x.map(y=>'<td>'+y+'</td>').join('')+'</tr>').join('')+'</table></div>';
+const nt='<p class="note">Reference aid only. Always check the current official text and your site SOPs and contamination control strategy.</p>';
+const views={
+grades:()=>gr.map(g=>`<div class="card g ${g[1]}"><h3>Grade ${g[0]}</h3><p>${g[2]}</p><p><b>Equivalent:</b> ${g[3]}</p><p class="mu">${g[4]}</p></div>`).join('')+
+'<div class="card"><h3>Other guidance values</h3><p>Pressure differential: minimum 10 Pa between adjacent rooms of different grade (guidance), higher grade at higher pressure.</p><p>Cleanroom recovery time: about 15–20 minutes (guidance).</p></div>'+nt,
+particles:()=>'<div class="card"><h3>Annex 1 maximum particles per m³</h3>'+tb(['Grade','At rest ≥0.5 µm','At rest ≥5 µm','In op ≥0.5 µm','In op ≥5 µm'],pa)+'<p class="mu">*Grade A: ≥5 µm limits can be considered where indicated by the CCS or trends.</p></div><div class="card"><h3>ISO 14644-1 maximum particles per m³</h3>'+tb(['Class','≥0.5 µm','≥1 µm','≥5 µm'],iso)+'</div>'+nt,
+micro:()=>'<div class="card"><h3>Annex 1 recommended microbial action limits</h3>'+tb(['Grade','Air CFU/m³','Settle plate 90 mm, 4 h','Contact plate 55 mm','Glove print, 5 fingers'],mi)+'</div>'+nt,
+gown:()=>go.map(g=>`<div class="card"><h3>Grade ${g[0]}</h3><p>${g[1]}</p></div>`).join('')+nt,
+gloss:()=>'<input id="q" placeholder="Search terms or acronyms" autocomplete="off"><dl id="gl"></dl>'+nt};
+function glist(q){q=(q||'').toLowerCase();document.getElementById('gl').innerHTML=gl.filter(x=>(x[0]+x[1]).toLowerCase().includes(q)).map(x=>`<dt>${x[0]}</dt><dd>${x[1]}</dd>`).join('')||'<p class="mu">No matches.</p>'}
+function show(k){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+document.getElementById('v').innerHTML=views[k]();if(k==='gloss'){glist();document.getElementById('q').oninput=e=>glist(e.target.value)}
+if(location.hash!=='#'+k)history.replaceState(null,'','#'+k)}
+document.getElementById('nav').innerHTML=Object.keys(tabs).map(k=>`<button data-k="${k}">${tabs[k]}</button>`).join('');
+document.getElementById('nav').onclick=e=>{if(e.target.dataset.k)show(e.target.dataset.k)};
+addEventListener('hashchange',()=>{const k=location.hash.slice(1);if(views[k])show(k)});
+show(views[location.hash.slice(1)]?location.hash.slice(1):'grades');
+</script>
+</body>
+</html>
